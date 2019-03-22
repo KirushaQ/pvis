@@ -2,27 +2,36 @@ package ppvis_1;
 
 import java.awt.event.*;
 import javax.swing.*;
-
-
-
-
+//сделать кнопки круглыми и меняющими цвет при наведении мышкой
 public class All
 {
-	private
 	int countBox1=0;
- 	Object[] header = {"1 column", "2 column"};
+	Object[] header = {"column 1", "column 2"};
  	Object[][] data = {{null,null},{null,null},{null,null},{null,null},
  			{null,null},{null,null},{null,null},{null,null},{null,null},
  			{null,null},{null,null},{null,null},{null,null},{null,null}};
-	JTextField textGroup1, textGroup2, textrButton, textchBox, text_table;
 	JFrame frame;
-	JButton buttonGroup2Text, buttonGroup2Switch, buttonGroup1,
-	        buttonRBgroup, buttonChBgroup, button_table_add,
-	        button_table_switch1_2, button_table_switch_2_1;
+	JTextField textGroup1;
+	JTextField textGroup2;
+	JTextField textrButton;
+	JTextField textchBox;
+	JTextField text_table;
+	JButton buttonGroup2Text;
+	JButton buttonGroup2Switch;
+	JButton buttonGroup1;
+	JButton buttonRBgroup;
+	JButton buttonChBgroup;
+	JButton button_table_add;
+	JButton button_table_switch_1_2;
+	JButton button_table_switch_2_1;
 	ButtonGroup group;
-	JRadioButton rButton1, rButton2, rButton3;
+	JRadioButton rButton1;
+	JRadioButton rButton2;
+	JRadioButton rButton3;
 	JComboBox comboBox;
-	JCheckBox chBox1, chBox2, chBox3;
+	JCheckBox chBox1;
+	JCheckBox chBox2;
+	JCheckBox chBox3;
 	JOptionPane pane;
 	JTable table;
 	JScrollPane scrollPane;
@@ -45,6 +54,17 @@ public class All
     	textGroup1.setBounds(50,120,200,20);
     	frame.add(textGroup1);
     	
+        buttonGroup1 = new JButton();
+        buttonGroup1.setText("Press to add");
+        buttonGroup1.setBounds(50,50,200,20);
+        buttonGroup1.addActionListener(new ListenerButtonGroup1());
+    	frame.add(buttonGroup1);
+    	
+	    comboBox = new JComboBox();
+	    comboBox.setEditable(true);
+        comboBox.setBounds(300,20,200,20);
+        frame.add(comboBox);
+    	
         buttonGroup2Text = new JButton();
         buttonGroup2Text.setText("Button 1");
         buttonGroup2Text.setBounds(300,120,200,20);
@@ -60,17 +80,6 @@ public class All
     	textGroup2 = new JTextField();
     	textGroup2.setBounds(50,20,200,20);
     	frame.add(textGroup2);
-    	
-        buttonGroup1 = new JButton();
-        buttonGroup1.setText("Press to add");
-        buttonGroup1.setBounds(50,50,200,20);
-        buttonGroup1.addActionListener(new ListenerButtonGroup1());
-    	frame.add(buttonGroup1);
-    	
-    	comboBox = new JComboBox();
-    	comboBox.setEditable(true);
-        comboBox.setBounds(300,20,200,20);
-        frame.add(comboBox);
         
         textrButton = new JTextField();
         textrButton.setBounds(50,220,200,20);
@@ -128,12 +137,12 @@ public class All
     			new ListenerButton_table_add());
      	frame.add(button_table_add);
      	
-    	button_table_switch1_2 = new JButton();
-    	button_table_switch1_2.setText("Press to switch 1->2");
-    	button_table_switch1_2.setBounds(50,460,200,20);
-    	button_table_switch1_2.addActionListener(
-    			new ListenerButton_table_switch1_2());
-     	frame.add(button_table_switch1_2);
+    	button_table_switch_1_2 = new JButton();
+    	button_table_switch_1_2.setText("Press to switch 1->2");
+    	button_table_switch_1_2.setBounds(50,460,200,20);
+    	button_table_switch_1_2.addActionListener(
+    			new Listenerbutton_table_switch_1_2());
+     	frame.add(button_table_switch_1_2);
      	
     	button_table_switch_2_1 = new JButton();
     	button_table_switch_2_1.setText("Press to switch 2->1");
@@ -180,7 +189,7 @@ public class All
                 if (c==0) {
                 	comboBox.addItem(textGroup2.getText());
                 } else {
-                	pane.showMessageDialog(frame, "Данный элемент уже существует");
+                	pane.showMessageDialog(frame, "Данный элемент уже существует","Ошибка",2);
                     countBox1--;
                 }
            }
@@ -203,7 +212,7 @@ public class All
             	rButton3.setSelected(true); i++;
             	}     
             if (i==0) {
-            	pane.showMessageDialog(frame, "Данного элемента не существует");
+            	pane.showMessageDialog(frame, "Данного элемента не существует","Ошибка",2);
             }
         }
     }
@@ -225,7 +234,7 @@ public class All
 				i++;
 			}
 			if (i == 0) {
-				pane.showMessageDialog(frame, "Данного элемента не существует");
+				pane.showMessageDialog(frame, "Данного элемента не существует","Ошибка",2);
 			}
 		}
 	}
@@ -245,22 +254,26 @@ public class All
         }
     }
     
-    class ListenerButton_table_switch1_2 implements ActionListener {
+    class Listenerbutton_table_switch_1_2 implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+        	if (table.getValueAt(table.getSelectedRow(), 0)!=null) {
         	table.setValueAt(table.getValueAt(table.getSelectedRow(), 0),
         			table.getSelectedRow(), 1);
         	table.setValueAt(null, table.getSelectedRow(), 0);
+        	}
         }
     }
     
     class ListenerButton_table_switch_2_1 implements ActionListener {
         public void actionPerformed(ActionEvent e) {
+        	if (table.getValueAt(table.getSelectedRow(), 1)!=null) {
         	table.setValueAt(table.getValueAt(table.getSelectedRow(), 1),
         			table.getSelectedRow(), 0);
         	table.setValueAt(null, table.getSelectedRow(), 1);
+        	}
         }
     }
-
+    
 	public static void main(String[] args) {
 		All start = new All();
 	}
