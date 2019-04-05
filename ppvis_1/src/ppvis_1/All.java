@@ -2,7 +2,7 @@ package ppvis_1;
 
 import java.awt.event.*;
 import javax.swing.*;
-//сделать кнопки круглыми и мен€ющими цвет при наведении мышкой
+
 public class All
 {
 	int countBox1=0;
@@ -50,13 +50,14 @@ public class All
     	
     	pane = new JOptionPane();
     	
-    	textGroup1 = new JTextField();
-    	textGroup1.setBounds(50,120,200,20);
-    	frame.add(textGroup1);
     	
-        buttonGroup1 = new JButton();
-        buttonGroup1.setText("Press to add");
-        buttonGroup1.setBounds(50,50,200,20);
+    	textGroup2 = new JTextField("text");
+    	textGroup2.setBounds(50,20,200,20);
+    	frame.add(textGroup2);
+    	
+        buttonGroup1 = new RoundButton();
+        buttonGroup1.setText("Press");
+        buttonGroup1.setBounds(100,45,75,75);
         buttonGroup1.addActionListener(new ListenerButtonGroup1());
     	frame.add(buttonGroup1);
     	
@@ -65,30 +66,30 @@ public class All
         comboBox.setBounds(300,20,200,20);
         frame.add(comboBox);
     	
-        buttonGroup2Text = new JButton();
-        buttonGroup2Text.setText("Button 1");
-        buttonGroup2Text.setBounds(300,120,200,20);
+    	textGroup1 = new JTextField();
+    	textGroup1.setBounds(50,150,200,20);
+    	frame.add(textGroup1);
+        
+        buttonGroup2Text = new RoundButton();
+        buttonGroup2Text.setText("Add");
+        buttonGroup2Text.setBounds(300,120,75,75);
         buttonGroup2Text.addActionListener(new ListenerButtonGroup2Text());
     	frame.add(buttonGroup2Text);
         
-        buttonGroup2Switch = new JButton();
-        buttonGroup2Switch.setText("Button 2");
-        buttonGroup2Switch.setBounds(300,150,200,20);
+        buttonGroup2Switch = new RoundButton();
+        buttonGroup2Switch.setText("Switch");
+        buttonGroup2Switch.setBounds(400,120,75,75);
         buttonGroup2Switch.addActionListener(new ListenerButtonGroup2Switch());
     	frame.add(buttonGroup2Switch);
-    	
-    	textGroup2 = new JTextField();
-    	textGroup2.setBounds(50,20,200,20);
-    	frame.add(textGroup2);
         
         textrButton = new JTextField();
         textrButton.setBounds(50,220,200,20);
         textrButton.setText("1");
     	frame.add(textrButton);
     	
-    	buttonRBgroup = new JButton();
+    	buttonRBgroup = new RoundButton();
         buttonRBgroup.setText("Press to add");
-        buttonRBgroup.setBounds(50,250,200,20);
+        buttonRBgroup.setBounds(100,250,75,75);
         buttonRBgroup.addActionListener(new ListenerButtonRBgroup());
      	frame.add(buttonRBgroup);
      	
@@ -107,54 +108,54 @@ public class All
      	frame.add(rButton3);
      	
      	textchBox = new JTextField();
-     	textchBox.setBounds(50,300,200,20);
+     	textchBox.setBounds(50,350,200,20);
     	frame.add(textchBox);
     	
-    	buttonChBgroup = new JButton();
-        buttonChBgroup.setText("Press to add");
-        buttonChBgroup.setBounds(50,330,200,20);
+    	buttonChBgroup = new RoundButton();
+        buttonChBgroup.setText("Add");
+        buttonChBgroup.setBounds(100,375,75,75);
         buttonChBgroup.addActionListener(new ListenerButtonChBgroup());
      	frame.add(buttonChBgroup);
      	
      	chBox1 = new JCheckBox("1");
      	chBox2 = new JCheckBox("2");
      	chBox3 = new JCheckBox("3");
-     	chBox1.setBounds(300,315,40,40);
-     	chBox2.setBounds(350,315,40,40);
-     	chBox3.setBounds(400,315,40,40);
+     	chBox1.setBounds(300,350,40,40);
+     	chBox2.setBounds(350,350,40,40);
+     	chBox3.setBounds(400,350,40,40);
      	frame.add(chBox1);
      	frame.add(chBox2);
      	frame.add(chBox3);
      	
     	text_table = new JTextField();
-    	text_table.setBounds(50,400,200,20);
+    	text_table.setBounds(50,475,200,20);
     	frame.add(text_table);
     	
-    	button_table_add = new JButton();
-    	button_table_add.setText("Press to add");
-    	button_table_add.setBounds(50,430,200,20);
+    	button_table_add = new RoundButton();
+    	button_table_add.setText("Add");
+    	button_table_add.setBounds(50,500,75,75);
     	button_table_add.addActionListener(
     			new ListenerButton_table_add());
      	frame.add(button_table_add);
      	
-    	button_table_switch_1_2 = new JButton();
-    	button_table_switch_1_2.setText("Press to switch 1->2");
-    	button_table_switch_1_2.setBounds(50,460,200,20);
+    	button_table_switch_1_2 = new RoundButton();
+    	button_table_switch_1_2.setText("1->2");
+    	button_table_switch_1_2.setBounds(50,590,75,75);
     	button_table_switch_1_2.addActionListener(
     			new Listenerbutton_table_switch_1_2());
      	frame.add(button_table_switch_1_2);
      	
-    	button_table_switch_2_1 = new JButton();
-    	button_table_switch_2_1.setText("Press to switch 2->1");
-    	button_table_switch_2_1.setBounds(50,490,200,20);
+    	button_table_switch_2_1 = new RoundButton();
+    	button_table_switch_2_1.setText("2->1");
+    	button_table_switch_2_1.setBounds(150,590,75,75);
     	button_table_switch_2_1.addActionListener(
     			new ListenerButton_table_switch_2_1());
      	frame.add(button_table_switch_2_1);
      	
      	table = new JTable(data,header);
-     	table.setBounds(305,405,380,235);
+     	table.setBounds(305,480,380,235);
      	scrollPane = new JScrollPane(table);
-     	scrollPane.setBounds(300,400,400,245);
+     	scrollPane.setBounds(300,475,400,245);
      	frame.add(scrollPane);
     }
     
