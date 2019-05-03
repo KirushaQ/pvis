@@ -1,7 +1,12 @@
 package ppvis_2;
 
 import java.awt.event.*;
+import java.time.LocalDate;
+import java.util.ArrayList;
+
 import javax.swing.*;
+
+import ppvis_2.Main.ButtonSeekerListener;
 
 public class Main {
 
@@ -13,36 +18,17 @@ public class Main {
  			{null,null,null,null,null,null},{null,null,null,null,null,null}};
  	int page = 1;
  	int maxPage = 5;
+ 	int recOnPage = 10;
+ 	int fullRecords = 50;
 	
 	JFrame frame;
-	JFrame frameSeek;
-	ButtonGroup group;
-	JRadioButton rButton1;
-	JRadioButton rButton2;
-    JRadioButton rButton3;
-    JRadioButton rButton4;
-    JRadioButton rButton5;
+
     JButton buttonSeeker;
-    JTextField textSeeker;
-    JTextField textSeeker2;
-    JTextField textSeeker3;
-    JButton buttonSeekStart;
-    JComboBox seekBox;
+    Seek seek;
     
-	JFrame frameDelete;
-	ButtonGroup group2;
-	JRadioButton rdButton1;
-	JRadioButton rdButton2;
-    JRadioButton rdButton3;
-    JRadioButton rdButton4;
-    JRadioButton rdButton5;
     JButton buttonDeleter;
-    JTextField textDeleter;
-    JTextField textDeleter2;
-    JTextField textDeleter3;
-    JButton buttonDeleteStart;
-    JButton deleteResult;
-    
+    Delete delete;
+ 
     JButton button1;
     JButton buttonLeft;
     JButton buttonRight;
@@ -57,21 +43,22 @@ public class Main {
     JLabel allPages;
     JButton currentPages;
     
+    
     JButton addButton;
-    JFrame frameAdd;
-    JTextField addField1;
-    JTextField addField2;
-    JTextField addField3;
-    JTextField addField4;
-    JTextField addField5;
-    JButton buttonAdd;
-    
-    
+    Add add;
+
     JButton saveButton;
     JButton loadButton;
     
     JTable table;
     JScrollPane scrollPane;
+    
+    ArrayList <String> tName;
+    ArrayList <LocalDate> tDate; 
+    ArrayList <String> sName;
+    ArrayList <String> tWinner;
+    ArrayList <Integer> tPrise;
+    ArrayList <Integer> wPrise;
     
 	public Main()
 	{
@@ -86,110 +73,17 @@ public class Main {
     	frame.setSize(1080,600);
     	frame.setTitle("Lel");
         frame.getContentPane().setLayout(null);
- 
-        frameSeek = new JFrame();
-        frameSeek.setSize(500,500);
-        frameSeek.setTitle("Seek");
-        frameSeek.getContentPane().setLayout(null);
-        rButton1 = new JRadioButton("По турниру",true);
-     	rButton2 = new JRadioButton("По дате");
-     	rButton3 = new JRadioButton("По виду спорта");
-     	rButton4 = new JRadioButton("По Фио");
-     	rButton5 = new JRadioButton("По призовым");
-     	group = new ButtonGroup();
-     	rButton1.setBounds(20,10,200,40);
-     	rButton2.setBounds(20,80,200,40);
-     	rButton3.setBounds(20,150,200,40);
-     	rButton4.setBounds(20,220,200,40);
-     	rButton5.setBounds(20,290,200,40);
-     	group.add(rButton1);
-     	group.add(rButton2);
-     	group.add(rButton3);
-     	group.add(rButton4);
-     	group.add(rButton5);
-     	frameSeek.add(rButton1);
-     	frameSeek.add(rButton2);
-        frameSeek.add(rButton3);
-        frameSeek.add(rButton4);
-        frameSeek.add(rButton5);
         
-        textSeeker = new JTextField();
-        textSeeker.setBounds(250,50,200,30);
-        frameSeek.add(textSeeker);
         
-        textSeeker2 = new JTextField();
-        textSeeker2.setBounds(250,100,200,30);
-        frameSeek.add(textSeeker2);
-        
-        textSeeker3 = new JTextField();
-        textSeeker3.setBounds(250,150,200,30);
-        frameSeek.add(textSeeker3);
-        
-        buttonSeekStart = new JButton();
-        buttonSeekStart.setText("Press to seek");
-        buttonSeekStart.setBounds(250,200,200,50);
-        frameSeek.add(buttonSeekStart);
-        
-        seekBox = new JComboBox();
-        seekBox.setBounds(50,350,400,50);
-        seekBox.setEditable(true);
-        frameSeek.add(seekBox);
-        
+        seek = new Seek();
         buttonSeeker = new JButton();
         buttonSeeker.setText("Press to seek");
         buttonSeeker.setBounds(50,20,200,50);
         buttonSeeker.addActionListener(new ButtonSeekerListener());
-        frame.add(buttonSeeker);
-        
-        
-        
-        frameDelete = new JFrame();
-        frameDelete.setSize(500,500);
-        frameDelete.setTitle("Delete");
-        frameDelete.getContentPane().setLayout(null);
-        rdButton1 = new JRadioButton("По турниру",true);
-     	rdButton2 = new JRadioButton("По дате");
-     	rdButton3 = new JRadioButton("По виду спорта");
-     	rdButton4 = new JRadioButton("По Фио");
-     	rdButton5 = new JRadioButton("По призовым");
-     	group2 = new ButtonGroup();
-     	rdButton1.setBounds(20,10,200,40);
-     	rdButton2.setBounds(20,80,200,40);
-     	rdButton3.setBounds(20,150,200,40);
-     	rdButton4.setBounds(20,220,200,40);
-     	rdButton5.setBounds(20,290,200,40);
-     	group2.add(rdButton1);
-     	group2.add(rdButton2);
-     	group2.add(rdButton3);
-     	group2.add(rdButton4);
-     	group2.add(rdButton5);
-     	frameDelete.add(rdButton1);
-     	frameDelete.add(rdButton2);
-        frameDelete.add(rdButton3);
-        frameDelete.add(rdButton4);
-        frameDelete.add(rdButton5);
-        
-        textDeleter = new JTextField();
-        textDeleter.setBounds(250,50,200,30);
-        frameDelete.add(textDeleter);
-        
-        textDeleter2 = new JTextField();
-        textDeleter2.setBounds(250,100,200,30);
-        frameDelete.add(textDeleter2);
-        
-        textDeleter3 = new JTextField();
-        textDeleter3.setBounds(250,150,200,30);
-        frameDelete.add(textDeleter3);
-        
-        buttonDeleteStart = new JButton();
-        buttonDeleteStart.setText("Press to delete");
-        buttonDeleteStart.setBounds(250,200,200,50);
-        frameDelete.add(buttonDeleteStart);
-        
-        deleteResult = new JButton();
-        deleteResult.setBounds(50,350,400,50);
-        frameDelete.add(deleteResult);
-        
+        frame.add(buttonSeeker);	
+            
+ 
+        delete = new Delete();
         buttonDeleter = new JButton();
         buttonDeleter.setText("Press to delete");
         buttonDeleter.setBounds(800,20,200,50);
@@ -246,7 +140,7 @@ public class Main {
         currentPages = new JButton();
         currentPages.setText("5");
         currentPages.setBounds(950,430,50,30);
-        frame.add( currentPages);
+        frame.add(currentPages);
         
         textStrings = new JTextField();
         textStrings.setBounds(250,450,200,50);
@@ -255,6 +149,7 @@ public class Main {
         buttonStrings = new JButton();
         buttonStrings.setText("Change records amount");
         buttonStrings.setBounds(500,450,200,50);
+        buttonStrings.addActionListener(new ButtonStringsListener());
         frame.add(buttonStrings);
         
         records = new JLabel();
@@ -272,42 +167,13 @@ public class Main {
         allPages.setBounds(800,430,200,30);
         frame.add(allPages);
      
-        
-        frameAdd = new JFrame();
-        frameAdd.setSize(350,500);
-        frameAdd.setTitle("Add");
-        frameAdd.getContentPane().setLayout(null);
-        
+        add = new Add();
+       
         addButton = new JButton();
         addButton.setText("Add record");
         addButton.setBounds(30,380,180,50);
         addButton.addActionListener(new AddButtonListener());
         frame.add(addButton);
-        
-        addField1 = new JTextField();
-        addField1.setBounds(50,50,200,30);
-        frameAdd.add(addField1);
-        
-        addField2 = new JTextField();
-        addField2.setBounds(50,100,200,30);
-        frameAdd.add(addField2);
-        
-        addField3 = new JTextField();
-        addField3.setBounds(50,150,200,30);
-        frameAdd.add(addField3);
-        
-        addField4 = new JTextField();
-        addField4.setBounds(50,200,200,30);
-        frameAdd.add(addField4);
-        
-        addField5 = new JTextField();
-        addField5.setBounds(50,250,200,30);
-        frameAdd.add(addField5);
-        
-        buttonAdd = new JButton();
-        buttonAdd.setText("Press to add");
-        buttonAdd.setBounds(50,300,200,50);
-        frameAdd.add(buttonAdd);
         
         saveButton = new JButton();
         saveButton.setText("save");
@@ -318,23 +184,30 @@ public class Main {
         loadButton.setText("load");
         loadButton.setBounds(540,30,200,50);
         frame.add(loadButton);
+        
+        tName = new ArrayList<>();
+        tDate = new ArrayList<>();
+        sName = new ArrayList<>();
+        tWinner = new ArrayList<>();
+        tPrise = new ArrayList<>();
+        wPrise = new ArrayList<>();
 	}
 	
 	public class ButtonSeekerListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-            frameSeek.setVisible(true);
+            seek.setVisible(true);
 		}
 	}
 	
 	public class ButtonDeleterListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-            frameDelete.setVisible(true);
+            delete.setVisible(true);
 		}
 	}
 	
 	public class AddButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-            frameAdd.setVisible(true);
+            add.setVisible(true);
 		}
 	}
 	
@@ -358,6 +231,18 @@ public class Main {
 			page++;
 			if (page > maxPage) page=maxPage;
 			currentPage.setText(String.valueOf(page));
+		}
+	}
+	
+	public class ButtonStringsListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			recOnPage  = Integer.valueOf(textStrings.getText());
+            maxPage = fullRecords/recOnPage;
+            if (maxPage*recOnPage != fullRecords) maxPage++;
+            currentStrings.setText(String.valueOf(recOnPage));
+            currentPages.setText(String.valueOf(maxPage));
+            currentAllStrings.setText(String.valueOf(fullRecords));
+            
 		}
 	}
 	
