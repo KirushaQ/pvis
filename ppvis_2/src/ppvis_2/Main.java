@@ -192,6 +192,7 @@ public class Main {
         tPrise = new ArrayList<>();
         wPrise = new ArrayList<>();
 	}
+
 	
 	public class ButtonSeekerListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
@@ -222,6 +223,7 @@ public class Main {
 		public void actionPerformed(ActionEvent e) {
 			page--;
 			if (page<1) page=1;
+			if (page>maxPage)
 			currentPage.setText(String.valueOf(page));
 		}
 	}
@@ -242,6 +244,7 @@ public class Main {
             currentStrings.setText(String.valueOf(recOnPage));
             currentPages.setText(String.valueOf(maxPage));
             currentAllStrings.setText(String.valueOf(fullRecords));
+            buttonEnd.setText(String.valueOf(maxPage));
             
 		}
 	}

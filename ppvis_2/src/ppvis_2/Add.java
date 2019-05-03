@@ -18,7 +18,6 @@ public class Add extends JFrame {
         this.setTitle("Add");
         this.getContentPane().setLayout(null);
         
-        
         addField1 = new JTextField();
         addField1.setBounds(50,50,200,30);
         this.add(addField1);
@@ -44,11 +43,12 @@ public class Add extends JFrame {
         buttonAdd.setBounds(50,300,200,50);
         buttonAdd.addActionListener(new AddListener());
         this.add(buttonAdd);
+        
     }
      
 	public class AddListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-            
+
 		}
 	}
 	
