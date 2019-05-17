@@ -1,7 +1,8 @@
 package ppvis_2;
 import javax.swing.*;
 
-public class Delete extends JFrame {
+public class Delete {
+	JFrame frame;
 	ButtonGroup group2;
 	JRadioButton rdButton1;
 	JRadioButton rdButton2;
@@ -16,9 +17,10 @@ public class Delete extends JFrame {
     
     public Delete()
     {
-        this.setSize(500,500);
-        this.setTitle("Delete");
-        this.getContentPane().setLayout(null);
+    	frame = new JFrame();
+    	frame.setSize(500,500);
+    	frame.setTitle("Delete");
+    	frame.getContentPane().setLayout(null);
         rdButton1 = new JRadioButton("По турниру",true);
      	rdButton2 = new JRadioButton("По дате");
      	rdButton3 = new JRadioButton("По виду спорта");
@@ -35,31 +37,36 @@ public class Delete extends JFrame {
      	group2.add(rdButton3);
      	group2.add(rdButton4);
      	group2.add(rdButton5);
-     	this.add(rdButton1);
-     	this.add(rdButton2);
-     	this.add(rdButton3);
-     	this.add(rdButton4);
-     	this.add(rdButton5);
+     	frame.add(rdButton1);
+     	frame.add(rdButton2);
+     	frame.add(rdButton3);
+     	frame.add(rdButton4);
+     	frame.add(rdButton5);
         
         textDeleter = new JTextField();
         textDeleter.setBounds(250,50,200,30);
-        this.add(textDeleter);
+        frame.add(textDeleter);
         
         textDeleter2 = new JTextField();
         textDeleter2.setBounds(250,100,200,30);
-        this.add(textDeleter2);
+        frame.add(textDeleter2);
         
         textDeleter3 = new JTextField();
         textDeleter3.setBounds(250,150,200,30);
-        this.add(textDeleter3);
+        frame.add(textDeleter3);
         
         buttonDeleteStart = new JButton();
         buttonDeleteStart.setText("Press to delete");
         buttonDeleteStart.setBounds(250,200,200,50);
-        this.add(buttonDeleteStart);
+        frame.add(buttonDeleteStart);
         
         deleteResult = new JButton();
         deleteResult.setBounds(50,350,400,50);
-        this.add(deleteResult);
+        frame.add(deleteResult);
+    }
+    
+    public void start()
+    {
+    	frame.setVisible(true);
     }
 }

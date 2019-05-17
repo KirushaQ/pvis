@@ -59,12 +59,19 @@ public class Main {
     ArrayList <String> tWinner;
     ArrayList <Integer> tPrise;
     ArrayList <Integer> wPrise;
+	private AppController appController;
     
-	public Main()
+	public Main(AppController appController)
 	{
+		this.appController = appController;
 		start();
 		frame.setVisible(true);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	}
+	
+	public int getMaxPage()
+	{
+		return maxPage;
 	}
 	
 	public void start()
@@ -167,7 +174,7 @@ public class Main {
         allPages.setBounds(800,430,200,30);
         frame.add(allPages);
      
-        add = new Add();
+        add = new Add(this.appController);
        
         addButton = new JButton();
         addButton.setText("Add record");
@@ -196,19 +203,22 @@ public class Main {
 	
 	public class ButtonSeekerListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-            seek.setVisible(true);
+            Seek s = new Seek();
+            s.start();
 		}
 	}
 	
 	public class ButtonDeleterListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-            delete.setVisible(true);
+			 Delete s = new Delete();
+	            s.start();
 		}
 	}
 	
 	public class AddButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-            add.setVisible(true);
+			 Add s = new Add(appController);
+	            s.start();
 		}
 	}
 	
@@ -223,7 +233,7 @@ public class Main {
 		public void actionPerformed(ActionEvent e) {
 			page--;
 			if (page<1) page=1;
-			if (page>maxPage)
+			if (page>maxPage) page=maxPage;
 			currentPage.setText(String.valueOf(page));
 		}
 	}
@@ -257,6 +267,8 @@ public class Main {
 	}
 	
 	public static void main(String[] args) {
-		Main start = new Main();
+		Data data = new Data();
+		AppController appController = new AppController(data); 
+		Main start = new Main(appController);
     }
 }

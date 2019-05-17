@@ -1,9 +1,14 @@
 package ppvis_2;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
+import ppvis_2.Main.ButtonDeleterListener;
 import ppvis_2.Main.ButtonSeekerListener;
 
-public class Seek extends JFrame {
+public class Seek {
+	JFrame frame;
 	ButtonGroup group;
 	JRadioButton rButton1;
 	JRadioButton rButton2;
@@ -15,12 +20,15 @@ public class Seek extends JFrame {
     JTextField textSeeker3;
     JButton buttonSeekStart;
     JComboBox seekBox;
+    Main main;
+    
     
     public Seek()
     {
-        this.setSize(500,500);
-        this.setTitle("Seek");
-        this.getContentPane().setLayout(null);
+    	frame=new JFrame();
+    	frame.setSize(500,500);
+    	frame.setTitle("Seek");
+    	frame.getContentPane().setLayout(null);
         rButton1 = new JRadioButton("По турниру",true);
      	rButton2 = new JRadioButton("По дате");
      	rButton3 = new JRadioButton("По виду спорта");
@@ -37,33 +45,50 @@ public class Seek extends JFrame {
      	group.add(rButton3);
      	group.add(rButton4);
      	group.add(rButton5);
-     	this.add(rButton1);
-     	this.add(rButton2);
-     	this.add(rButton3);
-     	this.add(rButton4);
-     	this.add(rButton5);
+     	frame.add(rButton1);
+     	frame.add(rButton2);
+     	frame.add(rButton3);
+     	frame.add(rButton4);
+     	frame.add(rButton5);
         
         textSeeker = new JTextField();
         textSeeker.setBounds(250,50,200,30);
-        this.add(textSeeker);
+        frame.add(textSeeker);
         
         textSeeker2 = new JTextField();
         textSeeker2.setBounds(250,100,200,30);
-        this.add(textSeeker2);
+        frame.add(textSeeker2);
         
         textSeeker3 = new JTextField();
         textSeeker3.setBounds(250,150,200,30);
-        this.add(textSeeker3);
+        frame.add(textSeeker3);
         
         buttonSeekStart = new JButton();
         buttonSeekStart.setText("Press to seek");
         buttonSeekStart.setBounds(250,200,200,50);
-        this.add(buttonSeekStart);
+        buttonSeekStart.addActionListener(new ButtonSeekStartListener());
+        frame.add(buttonSeekStart);
         
         seekBox = new JComboBox();
         seekBox.setBounds(50,350,400,50);
         seekBox.setEditable(true);
-        this.add(seekBox);
+        frame.add(seekBox);
+
  
     }
+    
+    public void start()
+    {
+    	frame.setVisible(true);
+    }
+    
+    public class ButtonSeekStartListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			//собрать параметры
+			//вызвать операцию у контроллера с параметрами
+			//отобразить результат который вернул контроллер
+          int f= main.getMaxPage();
+          buttonSeekStart.setText(String.valueOf(f));
+		}
+	}
 }
