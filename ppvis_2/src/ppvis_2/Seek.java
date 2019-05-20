@@ -20,11 +20,14 @@ public class Seek {
     JTextField textSeeker3;
     JButton buttonSeekStart;
     JComboBox seekBox;
-    Main main;
+    private AppController appController;
+    private Main main;
     
     
-    public Seek()
+    public Seek(AppController appController, Main main)
     {
+    	this.main = main;
+    	this.appController = appController;
     	frame=new JFrame();
     	frame.setSize(500,500);
     	frame.setTitle("Seek");
@@ -87,8 +90,6 @@ public class Seek {
 			//собрать параметры
 			//вызвать операцию у контроллера с параметрами
 			//отобразить результат который вернул контроллер
-          int f= main.getMaxPage();
-          buttonSeekStart.setText(String.valueOf(f));
 		}
 	}
 }

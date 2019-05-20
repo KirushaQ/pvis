@@ -1,4 +1,7 @@
 package ppvis_2;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.*;
 
 public class Delete {
@@ -14,9 +17,13 @@ public class Delete {
     JTextField textDeleter3;
     JButton buttonDeleteStart;
     JButton deleteResult;
+    private AppController appController;
+    private Main main;
     
-    public Delete()
+    public Delete(AppController appController, Main main)
     {
+    	this.main = main;
+    	this.appController = appController;
     	frame = new JFrame();
     	frame.setSize(500,500);
     	frame.setTitle("Delete");
@@ -58,12 +65,20 @@ public class Delete {
         buttonDeleteStart = new JButton();
         buttonDeleteStart.setText("Press to delete");
         buttonDeleteStart.setBounds(250,200,200,50);
+        buttonDeleteStart.addActionListener(new DeleteListener());
         frame.add(buttonDeleteStart);
         
         deleteResult = new JButton();
         deleteResult.setBounds(50,350,400,50);
         frame.add(deleteResult);
     }
+    
+    public class DeleteListener implements ActionListener{
+		public void actionPerformed(ActionEvent e) {
+			appController.fullRecords--;
+			main.update();
+		}
+	}
     
     public void start()
     {

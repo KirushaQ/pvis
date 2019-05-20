@@ -12,9 +12,13 @@ public class Add {
     JTextField addField4;
     JTextField addField5;
     JButton buttonAdd;
+    private AppController appController;
+    private Main main;
     
-    public Add(AppController controoler)
+    public Add(AppController appController, Main main)
     {
+    	this.main=main;
+    	this.appController = appController;
     	frame = new JFrame();
     	frame.setSize(350,500);
     	frame.setTitle("Add");
@@ -55,9 +59,9 @@ public class Add {
      
 	public class AddListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			//создать объект
-			//сказать контроллеру добавить объект
-			//обновить зависимые окна
+			appController.fullRecords++;
+			main.table.setValueAt(appController.tName.get(0),0,0);
+			main.update();
 		}
 	}
 	

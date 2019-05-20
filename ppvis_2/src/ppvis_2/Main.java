@@ -16,13 +16,13 @@ public class Main {
  			{null,null,null,null,null,null},{null,null,null,null,null,null},{null,null,null,null,null,null},
  			{null,null,null,null,null,null},{null,null,null,null,null,null},{null,null,null,null,null,null},
  			{null,null,null,null,null,null},{null,null,null,null,null,null}};
- 	int page = 1;
- 	int maxPage = 5;
- 	int recOnPage = 10;
- 	int fullRecords = 50;
 	
 	JFrame frame;
-
+    Add sAdd;
+	Seek sSeek;
+	Delete sDelete;
+	
+	
     JButton buttonSeeker;
     Seek seek;
     
@@ -43,7 +43,6 @@ public class Main {
     JLabel allPages;
     JButton currentPages;
     
-    
     JButton addButton;
     Add add;
 
@@ -53,13 +52,9 @@ public class Main {
     JTable table;
     JScrollPane scrollPane;
     
-    ArrayList <String> tName;
-    ArrayList <LocalDate> tDate; 
-    ArrayList <String> sName;
-    ArrayList <String> tWinner;
-    ArrayList <Integer> tPrise;
-    ArrayList <Integer> wPrise;
+    
 	private AppController appController;
+	
     
 	public Main(AppController appController)
 	{
@@ -69,9 +64,15 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
-	public int getMaxPage()
+	
+	public void update()
 	{
-		return maxPage;
+		appController.maxPage=appController.fullRecords/appController.recOnPage;
+        buttonEnd.setText(String.valueOf(appController.maxPage));    
+        currentPages.setText(String.valueOf(appController.maxPage)); 
+        currentStrings.setText(String.valueOf(appController.recOnPage)); 
+        currentAllStrings.setText(String.valueOf(appController.fullRecords)); 
+        
 	}
 	
 	public void start()
@@ -79,26 +80,31 @@ public class Main {
 		frame = new JFrame();
     	frame.setSize(1080,600);
     	frame.setTitle("Lel");
-        frame.getContentPane().setLayout(null);
+        frame.getContentPane().setLayout(null);        
+
         
+        sAdd = new Add(appController, this);      
+        addButton = new JButton();
+        addButton.setText("Add record");
+        addButton.setBounds(30,380,180,50);
+        addButton.addActionListener(new AddButtonListener());
+        frame.add(addButton);
         
-        seek = new Seek();
+        sSeek = new Seek(appController, this);
         buttonSeeker = new JButton();
         buttonSeeker.setText("Press to seek");
         buttonSeeker.setBounds(50,20,200,50);
         buttonSeeker.addActionListener(new ButtonSeekerListener());
         frame.add(buttonSeeker);	
             
- 
-        delete = new Delete();
+        sDelete = new Delete(appController, this);
         buttonDeleter = new JButton();
         buttonDeleter.setText("Press to delete");
         buttonDeleter.setBounds(800,20,200,50);
         buttonDeleter.addActionListener(new ButtonDeleterListener());
         frame.add(buttonDeleter);
         
-        
-        
+               
     	table = new JTable(data,header);
      	table.setBounds(25,130,1000,180);
      	scrollPane = new JScrollPane(table);
@@ -173,14 +179,6 @@ public class Main {
         allPages.setText("Всего страниц");
         allPages.setBounds(800,430,200,30);
         frame.add(allPages);
-     
-        add = new Add(this.appController);
-       
-        addButton = new JButton();
-        addButton.setText("Add record");
-        addButton.setBounds(30,380,180,50);
-        addButton.addActionListener(new AddButtonListener());
-        frame.add(addButton);
         
         saveButton = new JButton();
         saveButton.setText("save");
@@ -192,77 +190,70 @@ public class Main {
         loadButton.setBounds(540,30,200,50);
         frame.add(loadButton);
         
-        tName = new ArrayList<>();
-        tDate = new ArrayList<>();
-        sName = new ArrayList<>();
-        tWinner = new ArrayList<>();
-        tPrise = new ArrayList<>();
-        wPrise = new ArrayList<>();
 	}
 
 	
+	
+	
 	public class ButtonSeekerListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-            Seek s = new Seek();
-            s.start();
+            sSeek.start();
 		}
 	}
 	
 	public class ButtonDeleterListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			 Delete s = new Delete();
-	            s.start();
+	            sDelete.start();
 		}
 	}
 	
 	public class AddButtonListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			 Add s = new Add(appController);
-	            s.start();
+			    sAdd.start();
 		}
 	}
 	
 	public class Button1Listener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			page = 1;
-			currentPage.setText(String.valueOf(page));
+			appController.page = 1;
+			currentPage.setText(String.valueOf(appController.page));
 		}
 	}
 	
 	public class ButtonLeftListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			page--;
-			if (page<1) page=1;
-			if (page>maxPage) page=maxPage;
-			currentPage.setText(String.valueOf(page));
+			appController.page--;
+			if (appController.page<1) appController.page=1;
+			if (appController.page>appController.maxPage) appController.page=appController.maxPage;
+			currentPage.setText(String.valueOf(appController.page));
 		}
 	}
 	
 	public class ButtonRightListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			page++;
-			if (page > maxPage) page=maxPage;
-			currentPage.setText(String.valueOf(page));
+			appController.page++;
+			if (appController.page > appController.maxPage) appController.page=appController.maxPage;
+			currentPage.setText(String.valueOf(appController.page));
 		}
 	}
 	
 	public class ButtonStringsListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			recOnPage  = Integer.valueOf(textStrings.getText());
-            maxPage = fullRecords/recOnPage;
-            if (maxPage*recOnPage != fullRecords) maxPage++;
-            currentStrings.setText(String.valueOf(recOnPage));
-            currentPages.setText(String.valueOf(maxPage));
-            currentAllStrings.setText(String.valueOf(fullRecords));
-            buttonEnd.setText(String.valueOf(maxPage));
+			appController.recOnPage  = Integer.valueOf(textStrings.getText());
+			appController. maxPage = appController.fullRecords/appController.recOnPage;
+            if (appController.maxPage*appController.recOnPage != appController.fullRecords) appController.maxPage++;
+            currentStrings.setText(String.valueOf(appController.recOnPage));
+            currentPages.setText(String.valueOf(appController.maxPage));
+            currentAllStrings.setText(String.valueOf(appController.fullRecords));
+            buttonEnd.setText(String.valueOf(appController.maxPage));
             
 		}
 	}
 	
 	public class ButtonEndListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			page = maxPage;
-			currentPage.setText(String.valueOf(page));
+			appController.page = appController.maxPage;
+			currentPage.setText(String.valueOf(appController.page));
 		}
 	}
 	
