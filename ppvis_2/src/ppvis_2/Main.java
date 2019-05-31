@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 import ppvis_2.Main.ButtonSeekerListener;
 
@@ -12,10 +13,7 @@ public class Main {
 
 	Object[] header = {"Название турнира", "Дата проведения", "Название вида спорта",
 			"ФИО победителя", "Размеры призовых", "Заработок победителя"};
- 	Object[][] data = {{null,null,null,null,null,null},{null,null,null,null,null,null},
- 			{null,null,null,null,null,null},{null,null,null,null,null,null},{null,null,null,null,null,null},
- 			{null,null,null,null,null,null},{null,null,null,null,null,null},{null,null,null,null,null,null},
- 			{null,null,null,null,null,null},{null,null,null,null,null,null}};
+ 	Object[] data = {null,null,null,null,null};
 	
 	JFrame frame;
     Add sAdd;
@@ -24,6 +22,7 @@ public class Main {
     JButton buttonSeeker;  
     JButton buttonDeleter;
 
+    DefaultTableModel model;
  
     JButton button1;
     JButton buttonLeft;
@@ -99,8 +98,14 @@ public class Main {
         buttonDeleter.addActionListener(new ButtonDeleterListener());
         frame.add(buttonDeleter);
         
-               
-    	table = new JTable(data,header);
+           
+        table = new JTable(new DefaultTableModel(header,2));
+
+        model = (DefaultTableModel) table.getModel();
+        model.addRow(data);
+        model.addRow(data);
+        model.removeRow(2);
+        
      	table.setBounds(25,130,1000,180);
      	scrollPane = new JScrollPane(table);
      	scrollPane.setBounds(20,125,1005,183);
