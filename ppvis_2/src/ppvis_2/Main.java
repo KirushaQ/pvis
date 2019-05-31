@@ -58,16 +58,66 @@ public class Main {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 	
+	public void change()
+	{
+		int i;
+		model = (DefaultTableModel) table.getModel();
+		int size;
+		if (appController.page==appController.maxPage) {
+			size = appController.tDate.size()-appController.recOnPage*(appController.maxPage-1);
+		}
+		else {
+			size = appController.recOnPage;
+		}
+		for (i=0; i<size; i++) {
+			model.removeRow(0);
+		}
+		for (i=0;i<size;i++) {
+			model.addRow(data);
+			table.setValueAt(appController.tName.get(i+(appController.page-1)*appController.recOnPage), i, 0);
+        	table.setValueAt(appController.tDate.get(i+(appController.page-1)*appController.recOnPage), i, 1);
+        	table.setValueAt(appController.sName.get(i+(appController.page-1)*appController.recOnPage), i, 2);
+        	table.setValueAt(appController.winnerSName.get(i+(appController.page-1)*appController.recOnPage)+" "+
+        	appController.winnerName.get(i+(appController.page-1)*appController.recOnPage)+" "+
+            appController.winnerFName.get(i+(appController.page-1)*appController.recOnPage), i, 3);
+        	table.setValueAt(appController.tPrise.get(i+(appController.page-1)*appController.recOnPage), i, 4);
+        	table.setValueAt(appController.wPrise.get(i+(appController.page-1)*appController.recOnPage), i, 5);
+		}
+	}
+	
 	
 	public void update()
 	{
-		appController.maxPage=appController.fullRecords/appController.recOnPage;
+		appController.maxPage=appController.fullRecords/appController.recOnPage+1;
+		if (appController.fullRecords%10==0) {
+			appController.maxPage--;
+		}
         buttonEnd.setText(String.valueOf(appController.maxPage));    
         currentPages.setText(String.valueOf(appController.maxPage)); 
         currentStrings.setText(String.valueOf(appController.recOnPage)); 
         currentAllStrings.setText(String.valueOf(appController.fullRecords)); 
         
+        
+        model = (DefaultTableModel) table.getModel();
+        for (int i=0; i<appController.recOnPage;i++) {
+        model.removeRow(0);
+        }
+       
+        for (int i=0; i<appController.recOnPage;i++) {
+            model.addRow(data);
+            if (appController.tName.size()>i) {
+            	table.setValueAt(appController.tName.get(i), i, 0);
+            	table.setValueAt(appController.tDate.get(i), i, 1);
+            	table.setValueAt(appController.sName.get(i), i, 2);
+            	table.setValueAt(appController.winnerSName.get(i)+" "+
+            	appController.winnerName.get(i)+" "+
+                appController.winnerFName.get(i), i, 3);
+            	table.setValueAt(appController.tPrise.get(i), i, 4);
+            	table.setValueAt(appController.wPrise.get(i), i, 5);
+            }
+        }
 	}
+	
 	
 	public void start()
 	{
@@ -99,21 +149,30 @@ public class Main {
         frame.add(buttonDeleter);
         
            
-        table = new JTable(new DefaultTableModel(header,2));
+        table = new JTable(new DefaultTableModel(header,0));
 
         model = (DefaultTableModel) table.getModel();
-        model.addRow(data);
-        model.addRow(data);
-        model.removeRow(2);
+   //------     
+        Object []a1 = {appController.tName.get(0),appController.tDate.get(0),
+        		appController.sName.get(0),appController.winnerSName.get(0)+" "
+                +appController.winnerName.get(0)+" "+appController.winnerFName.get(0),
+        		appController.tPrise.get(0),appController.wPrise.get(0)};
+        model.addRow(a1);
+        
+        Object []a2 = {appController.tName.get(1),appController.tDate.get(1),
+        		appController.sName.get(1),appController.winnerSName.get(1)+" "
+                +appController.winnerName.get(1)+" "+appController.winnerFName.get(1),
+                appController.tPrise.get(1),appController.wPrise.get(1)};
+        model.addRow(a2);
+        
+        for (int i=0; i<8; i++)
+        	model.addRow(data);
+   //-----
         
      	table.setBounds(25,130,1000,180);
      	scrollPane = new JScrollPane(table);
      	scrollPane.setBounds(20,125,1005,183);
         frame.add(scrollPane);
-      //____________________  
-        table.setValueAt(appController.tName.get(0), 0, 0);
-        table.setValueAt(appController.tName.get(1), 1, 0);
-      //________________________  
         button1 = new JButton();
         button1.setText("1");
         button1.setBounds(250,380,50,50);
@@ -133,28 +192,28 @@ public class Main {
         frame.add(buttonRight);
         
         buttonEnd = new JButton();
-        buttonEnd.setText("5");
+        buttonEnd.setText(String.valueOf(appController.maxPage));
         buttonEnd.setBounds(650,380,50,50);
         buttonEnd.addActionListener(new ButtonEndListener());
         frame.add(buttonEnd);
         
         currentPage = new JButton();
-        currentPage.setText("1");
+        currentPage.setText(String.valueOf(appController.page));
         currentPage.setBounds(450,380,50,50);
         frame.add(currentPage);
         
         currentStrings = new JButton();
-        currentStrings.setText("10");
+        currentStrings.setText(String.valueOf(appController.recOnPage));
         currentStrings.setBounds(950,380,50,30);
         frame.add(currentStrings);
         
         currentAllStrings = new JButton();
-        currentAllStrings.setText("50");
+        currentAllStrings.setText(String.valueOf(appController.fullRecords));
         currentAllStrings.setBounds(950,480,50,30);
         frame.add(currentAllStrings);
                
         currentPages = new JButton();
-        currentPages.setText("5");
+        currentPages.setText(String.valueOf(appController.maxPage));
         currentPages.setBounds(950,430,50,30);
         frame.add(currentPages);
         
@@ -220,6 +279,7 @@ public class Main {
 		public void actionPerformed(ActionEvent e) {
 			appController.page = 1;
 			currentPage.setText(String.valueOf(appController.page));
+            change();
 		}
 	}
 	
@@ -229,14 +289,18 @@ public class Main {
 			if (appController.page<1) appController.page=1;
 			if (appController.page>appController.maxPage) appController.page=appController.maxPage;
 			currentPage.setText(String.valueOf(appController.page));
+            change();
 		}
 	}
 	
 	public class ButtonRightListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			appController.page++;
-			if (appController.page > appController.maxPage) appController.page=appController.maxPage;
+			if (appController.page > appController.maxPage) {
+				appController.page=appController.maxPage;
+			}
 			currentPage.setText(String.valueOf(appController.page));
+            change();
 		}
 	}
 	
@@ -257,6 +321,7 @@ public class Main {
 		public void actionPerformed(ActionEvent e) {
 			appController.page = appController.maxPage;
 			currentPage.setText(String.valueOf(appController.page));
+            change();
 		}
 	}
 	

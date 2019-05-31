@@ -5,9 +5,9 @@ import java.util.ArrayList;
 
 public class Data {
  	int page = 1;
- 	int maxPage = 5;
+ 	int maxPage = 1;
  	int recOnPage = 10;
- 	int fullRecords = 50;
+ 	int fullRecords = 2;
     ArrayList <String> tName = new ArrayList<>();
     ArrayList <LocalDate> tDate = new ArrayList<>(); 
     ArrayList <String> sName = new ArrayList<>();
@@ -37,6 +37,6 @@ public class Data {
     	winnerSName.add("Иванов");
     	winnerFName.add("Иванович");
     	tPrise.add(800);
-    	wPrise.add(tPrise.get(0)/10*6);
+    	wPrise.add(tPrise.get(1)/10*6);
     }
 }

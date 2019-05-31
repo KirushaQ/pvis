@@ -1,16 +1,19 @@
 package ppvis_2;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
 
 import javax.swing.*;
 
 public class Add {
 	JFrame frame;
-    JTextField addField1;
-    JTextField addField2;
-    JTextField addField3;
-    JTextField addField4;
-    JTextField addField5;
+    JTextField addFieldTname;
+    JTextField addFieldTdate;
+    JTextField addFieldSname;
+    JTextField addFieldWName;
+    JTextField addFieldWSname;
+    JTextField addFieldWFname;
+    JTextField addFieldtprise;
     JButton buttonAdd;
     private AppController appController;
     private Main main;
@@ -20,33 +23,41 @@ public class Add {
     	this.main=main;
     	this.appController = appController;
     	frame = new JFrame();
-    	frame.setSize(350,500);
+    	frame.setSize(350,600);
     	frame.setTitle("Add");
     	frame.getContentPane().setLayout(null);
         
-        addField1 = new JTextField();
-        addField1.setBounds(50,50,200,30);
-        frame.add(addField1);
+    	addFieldTname = new JTextField("Название турнира");
+    	addFieldTname.setBounds(50,50,200,30);
+        frame.add(addFieldTname);
         
-        addField2 = new JTextField();
-        addField2.setBounds(50,100,200,30);
-        frame.add(addField2);
+        addFieldTdate = new JTextField("Дата турнира");
+        addFieldTdate.setBounds(50,100,200,30);
+        frame.add(addFieldTdate);
         
-        addField3 = new JTextField();
-        addField3.setBounds(50,150,200,30);
-        frame.add(addField3);
+        addFieldSname = new JTextField("Название спорта");
+        addFieldSname.setBounds(50,150,200,30);
+        frame.add(addFieldSname);
         
-        addField4 = new JTextField();
-        addField4.setBounds(50,200,200,30);
-        frame.add(addField4);
+        addFieldWName = new JTextField("Имя");
+        addFieldWName.setBounds(50,200,200,30);
+        frame.add(addFieldWName);
         
-        addField5 = new JTextField();
-        addField5.setBounds(50,250,200,30);
-        frame.add(addField5);
+        addFieldWSname = new JTextField("Фамилия");
+        addFieldWSname.setBounds(50,250,200,30);
+        frame.add(addFieldWSname);
+            
+        addFieldWFname = new JTextField("Отчество");
+        addFieldWFname.setBounds(50,300,200,30);
+        frame.add(addFieldWFname);
+        
+        addFieldtprise = new JTextField("Призовые");
+        addFieldtprise.setBounds(50,350,200,30);
+        frame.add(addFieldtprise);
         
         buttonAdd = new JButton();
         buttonAdd.setText("Press to add");
-        buttonAdd.setBounds(50,300,200,50);
+        buttonAdd.setBounds(50,400,200,50);
         buttonAdd.addActionListener(new AddListener());
         frame.add(buttonAdd);
         
@@ -60,7 +71,14 @@ public class Add {
 	public class AddListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
 			appController.fullRecords++;
-			main.table.setValueAt(appController.tName.get(0),0,0);
+			appController.tName.add(addFieldTname.getText());
+			appController.tDate.add(LocalDate.parse(addFieldTdate.getText()));
+			appController.sName.add(addFieldSname.getText());
+			appController.winnerName.add(addFieldWName.getText());
+			appController.winnerSName.add(addFieldWSname.getText());
+			appController.winnerFName.add(addFieldWFname.getText());
+			appController.tPrise.add(Integer.valueOf(addFieldtprise.getText()));
+			appController.wPrise.add(Integer.valueOf(addFieldtprise.getText())*6/10);
 			main.update();
 		}
 	}
