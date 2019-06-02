@@ -1,6 +1,8 @@
 package ppvis_2;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.swing.*;
 
@@ -24,6 +26,14 @@ public class Seek {
     
     Table tab;
     
+    ArrayList <String> tName = new ArrayList<>();
+    ArrayList <LocalDate> tDate = new ArrayList<>(); 
+    ArrayList <String> sName = new ArrayList<>();
+    ArrayList <String> winnerName = new ArrayList<>();
+    ArrayList <String> winnerSName = new ArrayList<>();
+    ArrayList <String> winnerFName = new ArrayList<>();
+    ArrayList <Integer> tPrise = new ArrayList<>();
+    ArrayList <Integer> wPrise = new ArrayList<>();
     
     
     public Seek(AppController appController, Main main, int type)
@@ -35,7 +45,9 @@ public class Seek {
     	frame=new JFrame();
     	frame.getContentPane().setLayout(null);
     	
-    	tab = new Table(1,frame,appController);
+    	if (type == 0) {
+    		tab = new Table(1,frame,appController);
+    	}
     	
         rButton1 = new JRadioButton("По турниру или дате",true);
      	rButton2 = new JRadioButton("По спорту или ФИО");
@@ -111,20 +123,165 @@ public class Seek {
     
     public void start()
     {
+    	if (type == 1) {
+    		deleteResult.setText(null);
+    	}
+    	if (type == 0) {
+    		tab.clear();
+    	}
     	frame.setVisible(true);
     }
     
     public class ButtonSeekStartListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			//собрать параметры
-			//вызвать операцию у контроллера с параметрами
-			//отобразить результат который вернул контроллер
+			int i;
+			tab.clear();
+			tName.clear();
+			tDate.clear();
+			sName.clear();
+			winnerName.clear();
+			winnerSName.clear();
+			winnerFName.clear();
+			tPrise.clear();
+			wPrise.clear();
+			if (rButton1.isSelected()) {
+				String tname = textSeeker.getText();
+				LocalDate tdate = LocalDate.parse(textSeeker2.getText());
+				for (i=0; i<appController.tName.size();i++)
+					if(appController.tName.get(i).equals(tname) ||
+					   appController.tDate.get(i).equals(tdate)) {
+						tName.add(appController.tName.get(i));
+						tDate.add(appController.tDate.get(i));
+						sName.add(appController.sName.get(i));
+						winnerName.add(appController.winnerName.get(i));
+						winnerSName.add(appController.winnerSName.get(i));
+						winnerFName.add(appController.winnerFName.get(i));
+						tPrise.add(appController.tPrise.get(i));
+						wPrise.add(appController.wPrise.get(i));
+					}
+			}
+			
+			if (rButton2.isSelected()) {
+				String sname = textSeeker.getText();
+				String winnername = textSeeker2.getText();
+				String winnerSname = textSeeker3.getText();
+				String winnerFname = textSeeker4.getText();
+				for (i=0; i<appController.tName.size();i++)
+					if(appController.sName.get(i).equals(sname) ||
+					   appController.winnerName.get(i).equals(winnername) ||
+					   appController.winnerSName.get(i).equals(winnerSname)||
+					   appController.winnerFName.get(i).equals(winnerFname)) {
+						tName.add(appController.tName.get(i));
+						tDate.add(appController.tDate.get(i));
+						sName.add(appController.sName.get(i));
+						winnerName.add(appController.winnerName.get(i));
+						winnerSName.add(appController.winnerSName.get(i));
+						winnerFName.add(appController.winnerFName.get(i));
+						tPrise.add(appController.tPrise.get(i));
+						wPrise.add(appController.wPrise.get(i));
+					}
+			}
+			
+			if (rButton3.isSelected()) {
+				int tprise = Integer.valueOf(textSeeker.getText());
+				int wprise = Integer.valueOf(textSeeker2.getText());
+				for (i=0; i<appController.tName.size();i++)
+					if(appController.tPrise.get(i).equals(tprise) ||
+					   appController.wPrise.get(i).equals(wprise)) {
+						tName.add(appController.tName.get(i));
+						tDate.add(appController.tDate.get(i));
+						sName.add(appController.sName.get(i));
+						winnerName.add(appController.winnerName.get(i));
+						winnerSName.add(appController.winnerSName.get(i));
+						winnerFName.add(appController.winnerFName.get(i));
+						tPrise.add(appController.tPrise.get(i));
+						wPrise.add(appController.wPrise.get(i));
+					}
+			}
+			tab.get(tName,tDate,sName,winnerName,winnerSName,winnerFName,tPrise,wPrise);
+			tab.update();
 		}
 	}
     
     public class DeleteListener implements ActionListener{
 		public void actionPerformed(ActionEvent e) {
-			appController.fullRecords--;
+			int k=0, i;
+			
+			if (rButton1.isSelected()) {
+				String tname = textSeeker.getText();
+				LocalDate tdate = LocalDate.parse(textSeeker2.getText());
+				for (i=0; i<appController.tName.size();i++)
+					if(!appController.tName.get(i).equals(tname) &&
+					   !appController.tDate.get(i).equals(tdate)) {
+						tName.add(appController.tName.get(i));
+						tDate.add(appController.tDate.get(i));
+						sName.add(appController.sName.get(i));
+						winnerName.add(appController.winnerName.get(i));
+						winnerSName.add(appController.winnerSName.get(i));
+						winnerFName.add(appController.winnerFName.get(i));
+						tPrise.add(appController.tPrise.get(i));
+						wPrise.add(appController.wPrise.get(i));
+					}
+					else {
+						k++;
+					}
+			}
+			
+			if (rButton2.isSelected()) {
+				String sname = textSeeker.getText();
+				String winnername = textSeeker2.getText();
+				String winnerSname = textSeeker3.getText();
+				String winnerFname = textSeeker4.getText();
+				for (i=0; i<appController.tName.size();i++)
+					if(!appController.sName.get(i).equals(sname) &&
+					   !appController.winnerName.get(i).equals(winnername) &&
+					   !appController.winnerSName.get(i).equals(winnerSname)&&
+					   !appController.winnerFName.get(i).equals(winnerFname)) {
+						tName.add(appController.tName.get(i));
+						tDate.add(appController.tDate.get(i));
+						sName.add(appController.sName.get(i));
+						winnerName.add(appController.winnerName.get(i));
+						winnerSName.add(appController.winnerSName.get(i));
+						winnerFName.add(appController.winnerFName.get(i));
+						tPrise.add(appController.tPrise.get(i));
+						wPrise.add(appController.wPrise.get(i));
+					}
+					else {
+						k++;
+					}
+			}
+			
+			if (rButton3.isSelected()) {
+				int tprise = Integer.valueOf(textSeeker.getText());
+				int wprise = Integer.valueOf(textSeeker2.getText());
+				for (i=0; i<appController.tName.size();i++)
+					if(!appController.tPrise.get(i).equals(tprise) &&
+					   !appController.wPrise.get(i).equals(wprise)) {
+						tName.add(appController.tName.get(i));
+						tDate.add(appController.tDate.get(i));
+						sName.add(appController.sName.get(i));
+						winnerName.add(appController.winnerName.get(i));
+						winnerSName.add(appController.winnerSName.get(i));
+						winnerFName.add(appController.winnerFName.get(i));
+						tPrise.add(appController.tPrise.get(i));
+						wPrise.add(appController.wPrise.get(i));
+					}
+					else {
+						k++;
+					}
+			}
+			
+			appController.tName=tName;
+			appController.tDate=tDate;
+			appController.sName=sName;
+			appController.winnerName=winnerName;
+			appController.winnerSName=winnerSName;
+			appController.winnerFName=winnerFName;
+			appController.tPrise=tPrise;
+			appController.wPrise=wPrise;
+			
+			deleteResult.setText("Было удалено "+k+" записей!");
+			
 			main.update();
 		}
 	}
@@ -145,6 +302,7 @@ public class Seek {
   	     }
   	   textSeeker.setText("Турнир");
   	   textSeeker2.setText("Дата");
+  	   deleteResult.setText(null);
   		}
   	}
     
@@ -155,6 +313,7 @@ public class Seek {
   	            textSeeker2.setBounds(250,100,200,30);
   	            textSeeker3.setBounds(250,150,200,30);
   	            textSeeker4.setBounds(250,200,200,30);
+ 		  	    deleteResult.setText(null);
   			}
   	  	     if (type == 0) {
   	  	    	 textSeeker.setBounds(20,50,200,30);
@@ -166,6 +325,7 @@ public class Seek {
   	  	   textSeeker2.setText("Имя");
   	  	   textSeeker3.setText("Фамилия");
   	  	   textSeeker4.setText("Отчество");
+
   		}
   	}
     
@@ -176,6 +336,7 @@ public class Seek {
   	            textSeeker2.setBounds(250,100,200,30);
   	            textSeeker3.setBounds(0,0,0,0);
   	            textSeeker4.setBounds(0,0,0,0);
+ 	  	  	     deleteResult.setText(null);
   			}
   	  	     if (type == 0) {
   	  	    	 textSeeker.setBounds(20,50,200,30);
@@ -185,6 +346,7 @@ public class Seek {
   	  	     }
   	  	   textSeeker.setText("Призовые");
   	  	   textSeeker2.setText("Заработок");
+
   		}
   	}
     

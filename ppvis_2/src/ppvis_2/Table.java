@@ -2,6 +2,8 @@ package ppvis_2;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.time.LocalDate;
+import java.util.ArrayList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -21,6 +23,14 @@ public class Table {
 	int key;
 	JFrame frame;
 	
+    ArrayList <String> tName = new ArrayList<>();
+    ArrayList <LocalDate> tDate = new ArrayList<>(); 
+    ArrayList <String> sName = new ArrayList<>();
+    ArrayList <String> winnerName = new ArrayList<>();
+    ArrayList <String> winnerSName = new ArrayList<>();
+    ArrayList <String> winnerFName = new ArrayList<>();
+    ArrayList <Integer> tPrise = new ArrayList<>();
+    ArrayList <Integer> wPrise = new ArrayList<>();
 
 	Object[] header = {"Название турнира", "Дата проведения", "Название вида спорта",
 			"ФИО победителя", "Размеры призовых", "Заработок победителя"};
@@ -49,6 +59,7 @@ public class Table {
     JTable table;
     JScrollPane scrollPane;
     
+    
     Table(int f, JFrame frame, AppController appController){
     	if (f==1) {
     		page = 1;
@@ -61,6 +72,35 @@ public class Table {
     	this.frame = frame;
     	start();
     	
+    }
+    
+    public void get(ArrayList <String> tname,  ArrayList <LocalDate> tdate,
+    		 ArrayList <String> sname, ArrayList <String> winnername, 
+    		 ArrayList <String> winnerSname, ArrayList <String> winnerFname,
+    		 ArrayList <Integer> tprise, ArrayList <Integer> wprise)
+    {
+    	tName = tname;
+    	tDate = tdate;
+    	sName = sname;
+    	winnerName = winnername;
+    	winnerSName = winnerSname;
+    	winnerFName = winnerFname;
+    	tPrise = tprise;
+    	wPrise = wprise;
+    	fullRecords = tName.size();
+    	maxPage = fullRecords/recOnPage+1;
+    	if (fullRecords%10==0) maxPage--;
+    	model = (DefaultTableModel) table.getModel();
+    	int size;
+    	if (fullRecords > recOnPage) {
+    		size = recOnPage;
+    	}
+    	else {
+    		size = fullRecords;
+    	}
+    	for (int i=0; i<size; i++) {
+    		model.addRow(data);
+    	}
     }
     
 	public void change(int f)
@@ -100,12 +140,15 @@ public class Table {
 		
 		if (key == 1) {
 			if (page==maxPage) {
-				size = appController.tDate.size()-recOnPage*(maxPage-1);
+				size = tDate.size()-recOnPage*(maxPage-1);
 			}
 			else {
 				size = recOnPage;
 			}
-			if (f==0) {
+			if (fullRecords == 0) {
+				size = 0;
+			}
+			if (f==0 || fullRecords<recOnPage) {
 				for (i=0; i<size; i++) {
 				model.removeRow(0);
 				}
@@ -117,14 +160,14 @@ public class Table {
 			}
 			for (i=0;i<size;i++) {
 				model.addRow(data);
-				table.setValueAt(appController.tName.get(i+(page-1)*recOnPage), i, 0);
-	        	table.setValueAt(appController.tDate.get(i+(page-1)*recOnPage), i, 1);
-	        	table.setValueAt(appController.sName.get(i+(page-1)*recOnPage), i, 2);
-	        	table.setValueAt(appController.winnerSName.get(i+(page-1)*recOnPage)+" "+
-	        	appController.winnerName.get(i+(page-1)*recOnPage)+" "+
-	            appController.winnerFName.get(i+(page-1)*recOnPage), i, 3);
-	        	table.setValueAt(appController.tPrise.get(i+(page-1)*recOnPage), i, 4);
-	        	table.setValueAt(appController.wPrise.get(i+(page-1)*recOnPage), i, 5);
+				table.setValueAt(tName.get(i+(page-1)*recOnPage), i, 0);
+	        	table.setValueAt(tDate.get(i+(page-1)*recOnPage), i, 1);
+	        	table.setValueAt(sName.get(i+(page-1)*recOnPage), i, 2);
+	        	table.setValueAt(winnerSName.get(i+(page-1)*recOnPage)+" "+
+	        	winnerName.get(i+(page-1)*recOnPage)+" "+
+	        	winnerFName.get(i+(page-1)*recOnPage), i, 3);
+	        	table.setValueAt(tPrise.get(i+(page-1)*recOnPage), i, 4);
+	        	table.setValueAt(wPrise.get(i+(page-1)*recOnPage), i, 5);
 			}
 		}
 	}
@@ -164,7 +207,7 @@ public class Table {
 		}
 		if (key == 1) {
 			maxPage=fullRecords/recOnPage+1;
-			if (fullRecords%10==0) {
+			if (fullRecords%10==0 && fullRecords!=0) {
 				maxPage--;
 			}
 	        buttonEnd.setText(String.valueOf(maxPage));    
@@ -174,53 +217,83 @@ public class Table {
 	        
 	        
 	        model = (DefaultTableModel) table.getModel();
-	        for (int i=0; i<recOnPage;i++) {
-	        model.removeRow(0);
+	        if (recOnPage < fullRecords) {
+		        for (int i=0; i<recOnPage;i++) {
+		        	model.removeRow(0);
+		        }
+	        }
+	        else {
+	        	 for (int i=0; i<fullRecords;i++) {
+			        	model.removeRow(0);
+			        }
 	        }
 	       
-	        for (int i=0; i<recOnPage;i++) {
-	            model.addRow(data);
-	            if (appController.tName.size()>i) {
-	            	table.setValueAt(appController.tName.get(i), i, 0);
-	            	table.setValueAt(appController.tDate.get(i), i, 1);
-	            	table.setValueAt(appController.sName.get(i), i, 2);
-	            	table.setValueAt(appController.winnerSName.get(i)+" "+
-	            	appController.winnerName.get(i)+" "+
-	                appController.winnerFName.get(i), i, 3);
-	            	table.setValueAt(appController.tPrise.get(i), i, 4);
-	            	table.setValueAt(appController.wPrise.get(i), i, 5);
-	            }
+	        if(fullRecords != 0) {
+	        	if (fullRecords >recOnPage) {
+			        for (int i=0; i<recOnPage;i++) {
+			            model.addRow(data);
+			            if (tName.size()>i) {
+			            	table.setValueAt(tName.get(i), i, 0);
+			            	table.setValueAt(tDate.get(i), i, 1);
+			            	table.setValueAt(sName.get(i), i, 2);
+			            	table.setValueAt(winnerSName.get(i)+" "+
+			            	winnerName.get(i)+" "+
+			            	winnerFName.get(i), i, 3);
+			            	table.setValueAt(tPrise.get(i), i, 4);
+			            	table.setValueAt(wPrise.get(i), i, 5);
+			            }
+			        }
+	        	}
+	        	else {
+	        		 for (int i=0; i<fullRecords;i++) {
+				            model.addRow(data);
+				            if (tName.size()>i) {
+				            	table.setValueAt(tName.get(i), i, 0);
+				            	table.setValueAt(tDate.get(i), i, 1);
+				            	table.setValueAt(sName.get(i), i, 2);
+				            	table.setValueAt(winnerSName.get(i)+" "+
+				            	winnerName.get(i)+" "+
+				            	winnerFName.get(i), i, 3);
+				            	table.setValueAt(tPrise.get(i), i, 4);
+				            	table.setValueAt(wPrise.get(i), i, 5);
+				            }
+				        }
+	        	}
 	        }
 		}
 	}
     
+	public void clear() {
+		model = (DefaultTableModel) table.getModel();
+		int i;
+		if (fullRecords>recOnPage) {
+			for (i=0;i<recOnPage;i++) {
+				model.removeRow(0);
+			}
+		}
+		else {
+			for (i=0;i<fullRecords;i++) {
+				model.removeRow(0);
+			}
+		}
+		page = 1;
+		maxPage = 1;
+		recOnPage = 10;
+		fullRecords = 0;
+		textStrings.setText(null);
+		for (i=0;i<recOnPage;i++) {
+			model.addRow(data);
+		}
+		update();
+	}
+	
     public void start() {
         table = new JTable(new DefaultTableModel(header,0));
 
         model = (DefaultTableModel) table.getModel();
         if (key==0) {
-   //------     
-        Object []a1 = {appController.tName.get(0),appController.tDate.get(0),
-        		appController.sName.get(0),appController.winnerSName.get(0)+" "
-                +appController.winnerName.get(0)+" "+appController.winnerFName.get(0),
-        		appController.tPrise.get(0),appController.wPrise.get(0)};
-        model.addRow(a1);
-        
-        Object []a2 = {appController.tName.get(1),appController.tDate.get(1),
-        		appController.sName.get(1),appController.winnerSName.get(1)+" "
-                +appController.winnerName.get(1)+" "+appController.winnerFName.get(1),
-                appController.tPrise.get(1),appController.wPrise.get(1)};
-        model.addRow(a2);
-        
-        for (int i=0; i<8; i++)
-        	model.addRow(data);
-   //-----
-        }
-        if (key == 1)
-        {
-        	for (int i=0; i<recOnPage; i++) {
+        	for (int i=0; i<10; i++)
         		model.addRow(data);
-        	}
         }
         
      	table.setBounds(25,130,1000,180);
@@ -378,15 +451,22 @@ public class Table {
 	            change(f);
 			}
 			if (key == 1) {
-				int f = recOnPage;
-				recOnPage  = Integer.valueOf(textStrings.getText());
-				 maxPage = fullRecords/recOnPage;
-	            if (maxPage*recOnPage != fullRecords) maxPage++;
-	            currentStrings.setText(String.valueOf(recOnPage));
-	            currentPages.setText(String.valueOf(maxPage));
-	            currentAllStrings.setText(String.valueOf(fullRecords));
-	            buttonEnd.setText(String.valueOf(maxPage));
-	            change(f);
+				if (fullRecords!=0) {
+					int f = recOnPage;
+					recOnPage  = Integer.valueOf(textStrings.getText());
+					maxPage = fullRecords/recOnPage+1;
+					if (fullRecords%10==0) maxPage--;
+		            currentStrings.setText(String.valueOf(recOnPage));
+		            currentPages.setText(String.valueOf(maxPage));
+		            currentAllStrings.setText(String.valueOf(fullRecords));
+		            buttonEnd.setText(String.valueOf(maxPage));
+		            change(f);
+				}
+				else {
+					recOnPage  = Integer.valueOf(textStrings.getText());
+		            currentStrings.setText(String.valueOf(recOnPage));
+
+				}
 			}
             
 		}
